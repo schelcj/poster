@@ -37,19 +37,19 @@ fn main() {
     }
 
     if matches.opt_present("c") {
-	let category = matches.opt_str("c");
-	match category {
-	    Some(x) => println!("{}", x),
-	    None => panic!("what now?")
-	}
-	return;
+        let category = matches.opt_str("c");
+        match category {
+            Some(x) => println!("{}", x),
+            None => panic!("what now?"),
+        }
+        return;
     }
 
     if matches.opt_present("i") {
-	let image = matches.opt_str("i");
-	match image {
-	    Some(x) => println!("{}", x),
-	    None => panic!("where it go?")
-	}
+        let image = matches.opt_str("i");
+        match image {
+            Some(x) => println!("{}", x),
+            None => panic!("where it go?"),
+        }
     }
 }
