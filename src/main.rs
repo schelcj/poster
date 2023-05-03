@@ -37,6 +37,9 @@ fn main() {
     }
 
     if matches.opt_present("c") {
+        // TODO: [2023-05-02 schelcj] - write category to file
+        // TODO: [2023-05-02 schelcj] - set poster to one from this category/directory
+
         let category = matches.opt_str("c");
         match category {
             Some(x) => println!("{}", x),
@@ -51,5 +54,29 @@ fn main() {
             Some(x) => println!("{}", x),
             None => panic!("where it go?"),
         }
+    }
+
+    if matches.opt_present("f") {
+        // TODO: [2023-05-02 schelcj] - flush whatever cache there is
+    }
+
+    if matches.opt_present("d") {
+        // TODO: [2023-05-02 schelcj] - dump the cache to STDOUT
+    }
+
+    if matches.opt_present("l") {
+        // TODO: [2023-05-02 schelcj] - set a lock file
+    }
+
+    if matches.opt_present("u") {
+        // TODO: [2023-05-02 schelcj] - remove lock file
+    }
+
+    if matches.opt_present("clear") {
+        // TODO: [2023-05-02 schelcj] - remove category file
+    }
+
+    if matches.opt_present("p") {
+        // TODO: [2023-05-02 schelcj] - set poster to previous image from previous file
     }
 }
