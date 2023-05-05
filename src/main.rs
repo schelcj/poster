@@ -2,10 +2,28 @@ extern crate getopts;
 
 use getopts::Options;
 use std::env;
+use std::fs;
+use std::fs::File;
+use std::io::prelude::*;
+use std::path::Path;
 
 fn print_usage(program: &str, opts: Options) {
     let brief = format!("Usage: {} FILE [options]", program);
     print!("{}", opts.usage(&brief));
+}
+
+fn set_category(category: &str) -> std::io::Result<()> {
+    let mut file = File::create("/home/schelcj/.wallpapers/category")?;
+    file.write_all(category.as_bytes())?;
+    Ok(())
+}
+
+fn clear_category() -> std::io::Result<()> {
+    if !Path::new("/home/schelcj/.wallpapers/category").exists() {
+        fs::remove_file("/home/schelcj/.wallpapers/category")?;
+    }
+
+    Ok(())
 }
 
 fn main() {
@@ -42,7 +60,9 @@ fn main() {
 
         let category = matches.opt_str("c");
         match category {
-            Some(x) => println!("{}", x),
+            Some(x) => {
+                set_category(&x).expect("failed to set category");
+            }
             None => panic!("what now?"),
         }
         return;
@@ -73,7 +93,7 @@ fn main() {
     }
 
     if matches.opt_present("clear") {
-        // TODO: [2023-05-02 schelcj] - remove category file
+        clear_category().expect("failed to clear category");
     }
 
     if matches.opt_present("p") {
