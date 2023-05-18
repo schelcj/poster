@@ -6,6 +6,7 @@ use std::fs;
 use std::fs::File;
 use std::io::prelude::*;
 use std::path::Path;
+use walkdir::WalkDir;
 
 fn print_usage(program: &str, opts: Options) {
     let brief = format!("Usage: {} FILE [options]", program);
@@ -15,12 +16,26 @@ fn print_usage(program: &str, opts: Options) {
 fn set_category(category: &str) -> std::io::Result<()> {
     let mut file = File::create("/home/schelcj/.wallpapers/category")?;
     file.write_all(category.as_bytes())?;
+
     Ok(())
 }
 
 fn clear_category() -> std::io::Result<()> {
     if !Path::new("/home/schelcj/.wallpapers/category").exists() {
         fs::remove_file("/home/schelcj/.wallpapers/category")?;
+    }
+
+    Ok(())
+}
+
+fn find_posters() -> std::io::Result<()> {
+    let walker = WalkDir::new("/home/schelcj/.wallpapers/Wallpapers").into_iter();
+
+    for entry in walker
+        .filter_map(|e| e.ok())
+        .filter(|e| !e.file_type().is_dir())
+    {
+        println!("{}", entry.path().display());
     }
 
     Ok(())
@@ -99,4 +114,6 @@ fn main() {
     if matches.opt_present("p") {
         // TODO: [2023-05-02 schelcj] - set poster to previous image from previous file
     }
+
+    find_posters().expect("failed to scan wallpapers directory");
 }
